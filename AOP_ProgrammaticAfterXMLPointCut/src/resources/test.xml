@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<beans>
+	<bean id="b" class="business.Bank"/>
+	<bean id="lb" class="services.LogBeforeService"/>
+	<bean id="dp" class="services.DepositePointcut"/>
+	<bean id="dpa" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="advice" ref="lb"/>
+		<property name="pointcut" ref="dp"/>
+	</bean>
+	<bean id="proxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target" ref="b"/>
+		<property name="interceptorNames">
+			<list>
+				<value>dpa</value>
+			</list>
+		</property>
+	</bean>
+</beans>
